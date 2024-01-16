@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự đoán văn bản</title>
+</head>
+<body>
+
+    <h1>Dự đoán văn bản</h1>
+
+    <label for="text-input">Nhập đoạn văn bản:</label>
+    <input type="text" id="text-input" style="width: 300px;">
+    <button onclick="predict()">Dự đoán</button>
+
+    <p id="result"></p>
+
+    <script>
+        function predict() {
+            var textInput = document.getElementById('text-input').value;
+
+            fetch('/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({text: textInput}),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('result').innerText = "Kết quả dự đoán: " + data.prediction;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+
+</body>
+</html>
